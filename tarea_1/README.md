@@ -63,9 +63,9 @@ END ini
 
 ¿Cuál es el valor que se le asigna a sum?
 R/ **196 608**
-![](ejercicio_2.png)
+![](ejercicio_2.PNG)
 
-![](ejercicio_2.1.png)
+![](ejercicio_2.1.PNG)
 
 # Ejercicio 3
 
