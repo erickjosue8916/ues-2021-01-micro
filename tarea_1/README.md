@@ -2,8 +2,10 @@
 
 ```asm
 .386
-.model flat,stdcall.stack 4096
-    ExitProcess proto,dwExitCode:dword.data
+.model flat,stdcall
+.stack 4096
+ExitProcess proto,dwExitCode:dword
+.data
     sum dword 0
 .code
 main proc
@@ -11,11 +13,12 @@ main proc
     add eax,6
     mov sum,eax
     invoke ExitProcess,0
-    main endp
+main endp
 end main
 ```
 
 Explique las modificaciones que debe realizar para que el programa coloque:
+
 1. decimal
 1. binary
 1. hexadecimal
@@ -23,12 +26,15 @@ Explique las modificaciones que debe realizar para que el programa coloque:
 En el registro AX.
 
 1. Ya esta en decimal
-2. colocar los numeros en binario 5 => 101b, 6 => 110b 
+2. colocar los numeros en binario 5 => 101b, 6 => 110b
+
 ```bash
     mov eax,101b
     add eax,110b
 ```
+
 3. Colocar h al final de los numeros 5 => 5h, 6 => 6h
+
 ```bash
     mov eax,5h
     add eax,6h
@@ -38,11 +44,11 @@ En el registro AX.
 
 ```asm
 .386
-.MODEL flat, stdcall
+.model flat, stdcall
     ExitProcess PROTO, w:DWORD
-.DATA
+.data
     sum dword 0
-.CODE
+.code
 ini:
     mov eax, 10000h ;
     add eax, 40000h ;
@@ -56,77 +62,86 @@ END ini
 ```
 
 ¿Cuál es el valor que se le asigna a sum?
-R/ **131 072**
+R/ **196 608**
+![](ejercicio_2.png)
+
+![](ejercicio_2.1.png)
 
 # Ejercicio 3
+
 ```asm
 .386
 .MODEL flat, stdcall
+.stack 4096
 ExitProcess PROTO, w:DWORD
 .DATA
-array1 WORD 30 DUP(?),0,0
-array2 WORD 5 DUP(3 DUP(?))
-array3 DWORD 1,2,3,4
-digitStr BYTE "12345678",0
+    array1 WORD 30 DUP(?),0,0
+    array2 WORD 5 DUP(3 DUP(?))
+    array3 DWORD 1,2,3,4
+    digitStr BYTE "12345678",0
 .CODE
-ini: 
-    mov ecx, LENGTHOF array1; 
-    mov ecx, LENGTHOF array2; 
-    mov ecx, LENGTHOF array3; 
+practica3:
+    mov ecx, LENGTHOF array1;
+    mov ecx, LENGTHOF array2;
+    mov ecx, LENGTHOF array3;
     mov ecx, LENGTHOF digitStr;
-    invoke ExitProcess,0
-; Retorno al sistema operativo
-push 0
+    invoke ExitProcess,0; Retorno al sistema operativo
+    push 0
 call ExitProcess
-END ini
-
+END practica3
 ```
+
 ¿Cual es la longitud de los arreglos array1,array2,array3 y digitStr?
-* **array1**: 32
-* **array2**: 5
-* **array3**: 4
-* **digitStr**: 2 
+
+- **array1**: 32
+- **array2**: 15
+- **array3**: 4
+- **digitStr**: 9
 
 # Ejercicio 4
+
 ```bash
 .386
 .MODEL flat, stdcall
+.stack 4096
 ExitProcess PROTO, w:DWORD
 .DATA
     dval DWORD 12345678h
     array BYTE 00h,10h,20h,30h
 .CODE
-ini: 
-    mov al, dval 
+main:
+    mov al, dval
     mov eax, array
-    invoke ExitProcess,0
-; Retorno al sistema operativo
-push 0
+    invoke ExitProcess,0; Retorno al sistema operativo
+    push 0
 call ExitProcess
-END ini
+END main
 ```
 
-R:/ 
+R:/ El error esta en que se intenta asignar valores que ocupan mas bytes que el destido que se pretende para ellos
+
 ```bash
 .386
 .MODEL flat, stdcall
+.stack 4096
 ExitProcess PROTO, w:DWORD
 .DATA
     dval DWORD 12345678h
     array BYTE 00h,10h,20h,30h
 .CODE
-ini: 
-    mov al, dval 
-    mov eax, array
-    invoke ExitProcess,0
-; Retorno al sistema operativo
-push 0
+practica4:
+    mov al, BYTE PTR dval
+    mov eax, DWORD PTR array
+    invoke ExitProcess,0; Retorno al sistema operativo
+    push 0
 call ExitProcess
-END ini
+END practica4
 ```
 
+![](./ejercicio_4.PNG)
 
 # Ejercicio 5
+
 ```bash
 .386
 .model flat,stdcall,c
@@ -149,33 +164,39 @@ end
 ```
 
 Modifique el código para mostrar un menú.
+
 1. Agregar
 2. Eliminar
 3. Salir
 
+**Solucion**
+
 ```bash
 .386
 .model flat,stdcall,c
-    includelib msvcrtd
-    includelib oldnames
-    includelib legacy_stdio_definitions.lib
+ includelib msvcrtd
+ includelib oldnames
+ includelib legacy_stdio_definitions.lib
 .data
-    mensaje db "Menu",0dh,0ah,
-            db "1. Agregar",
-            db "2. Eliminar",0
-            db "3. Salir",0
+mensaje db "BIENVENIDO AL MENU",0dh,0ah,
+		 "1- Agregar",0dh,0ah,
+		"2- Eliminar",0dh,0ah,
+		"1- Salir",0dh,0ah,0
 .code
-extrn printf:near
+ extrn printf:near
+
 public main
-main proc
-    mov eax, offset mensaje
-    push eax
-    call printf
-    pop eax ;
-    ret
-main endp
+practica5 proc
+ mov eax, offset mensaje
+ push eax
+ call printf
+ pop eax ;
+
+ ret
+practica5 endp
 end
 ```
+
 # Ejercicio 6
 
 ```bash
@@ -196,6 +217,7 @@ main PROC
 main ENDP
 END main
 ```
+
 # Ejercicio 7
 
 ```bash
