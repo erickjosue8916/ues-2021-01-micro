@@ -66,8 +66,8 @@ mov  eax,[ebx + 4]                 ; f. EAX = 00000002
 
 ```
 mov  esi,OFFSET misBytes
-mov  ax,WORD PTR [esi]             ; a. AX = 0010h
-mov  eax,DWORD PTR misPalabras     ; b. EAX = 0000008Ah
+mov  ax,WORD PTR [esi]             ; a. AX = 2010h
+mov  eax,DWORD PTR misPalabras     ; b. EAX = 003B008Ah
 mov  esi,miApuntador
 mov  ax,WORD PTR [esi+2]           ; c. AX = 0000h
 mov  ax,WORD PTR [esi+6]           ; d. AX = 0000h
