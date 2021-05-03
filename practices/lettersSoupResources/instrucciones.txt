@@ -1,0 +1,8 @@
+1- que opcion quieres realizarte
+tienes que elegir del menu.
+2-En Juego rapido has mostrado el laberinto
+si encontraste alguna palabra en el laberinto, ingresa
+esta palabra y presione la tecla enter.
+3-si tu respuesta es correcta entonces tu
+aumento de puntuación en 1 más sus vidas
+disminuir en 1.
